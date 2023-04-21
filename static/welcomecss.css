@@ -1,0 +1,155 @@
+/* welcome page */
+#welcome-page {
+  background-color: #f5f5f5;
+  border-radius: 30px;
+  box-shadow: 20px 20px 60px #d9d9d9, 
+              -20px -20px 60px #ffffff;
+  color: #333333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  margin: 50px auto;
+  padding: 20px;
+  width: 80%;
+}
+
+#welcome-page h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+#welcome-page button {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px #b3b3b3, 
+              -5px -5px 15px #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#welcome-page button:hover {
+  background-color: #3e8e41;
+}
+
+/* menu */
+#menu {
+  background-color: #f5f5f5;
+  border-radius: 30px;
+  box-shadow: 20px 20px 60px #d9d9d9, 
+              -20px -20px 60px #ffffff;
+  color: #333333;
+  margin: 50px auto;
+  padding: 20px;
+  width: 80%;
+}
+
+#menu h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+#menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+#menu li {
+  margin-bottom: 1rem;
+}
+
+#menu button.mode-button {
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px #b3b3b3, 
+              -5px -5px 15px #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#menu button.mode-button:hover {
+  background-color: #3e8e41;
+}
+
+#menu ul.levels {
+  margin-left: 2rem;
+}
+
+#menu ul.levels li {
+  margin-bottom: 0.5rem;
+}
+
+#menu ul.levels a {
+  color: #333333;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+#menu ul.levels a:hover {
+  color: #4CAF50;
+}
+
+/* Style for modes and levels */
+#menu {
+  margin: 50px auto;
+  width: 80%;
+  max-width: 600px;
+  background-color: #e6e6e6;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+}
+
+.hidden {
+  display: none;
+}
+
+.mode-button {
+  background-color: #fff;
+  color: #555;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  box-shadow: 8px 8px 16px #c1c1c1, -8px -8px 16px #ffffff;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.mode-button:hover {
+  background-color: #d9d9d9;
+}
+
+.levels {
+  list-style: none;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.levels a {
+  display: block;
+  background-color: #fff;
+  color: #555;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  box-shadow: 8px 8px 16px #c1c1c1, -8px -8px 16px #ffffff;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.levels a:hover {
+  background-color: #d9d9d9;
+}

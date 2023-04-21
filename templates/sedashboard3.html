@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <style>
+body {
+  background-color: #dce9d5;
+}
+
+h1{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#speech-form {
+  background-color: #c5d6bd;
+  border-radius: 20px;
+  box-shadow: 12px 12px 24px #b3c3a9, -12px -12px 24px #dfe9cf;
+  padding: 20px;
+}
+
+#word {
+  background-color: #c5d6bd;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 6px 6px 12px #b3c3a9, inset -6px -6px 12px #dfe9cf;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+#story {
+  background-color: #c5d6bd;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 6px 6px 12px #b3c3a9, inset -6px -6px 12px #dfe9cf;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+button {
+  background-color: #c5d6bd;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px #b3c3a9, -4px -4px 8px #dfe9cf;
+  color: #66755c;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  padding: 10px 20px;
+}
+
+button:hover {
+  box-shadow: 2px 2px 4px #b3c3a9, -2px -2px 4px #dfe9cf;
+}
+
+#timer {
+  background-color: #c5d6bd;
+  border-radius: 50%;
+  box-shadow: inset 6px 6px 12px #b3c3a9, inset -6px -6px 12px #dfe9cf;
+  color: #66755c;
+  font-size: 48px;
+  margin-top: 20px;
+  margin-left: 580px;
+  padding: 60px;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  line-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  </style>
+<script>
+window.onload=function(){
+// Get the buttons and timer from the HTML document
+const startBtn = document.getElementById("start-btn");
+const resetBtn = document.getElementById("reset-btn");
+const stopBtn = document.getElementById("stop-btn");
+const timer = document.getElementById("timer");
+
+// Set the initial timer value to 0
+let startTime = 0;
+let elapsedTime = 0;
+let timerInterval;
+
+// When the Start button is clicked, start the timer
+startBtn.addEventListener("click", function() {
+  startTime = Date.now() - elapsedTime;
+  timerInterval = setInterval(updateTimer, 10); // Update the timer every 10 milliseconds
+});
+
+// When the Reset button is clicked, reset the timer to 0
+resetBtn.addEventListener("click", function() {
+  clearInterval(timerInterval);
+  elapsedTime = 0;
+  timer.innerHTML = "0:00:00:000";
+});
+
+// When the Stop button is clicked, stop the timer
+stopBtn.addEventListener("click", function() {
+  clearInterval(timerInterval);
+});
+
+// Update the timer with the elapsed time
+function updateTimer() {
+  elapsedTime = Date.now() - startTime;
+  let ms = elapsedTime % 1000;
+  elapsedTime = (elapsedTime - ms) / 1000;
+  let secs = elapsedTime % 60;
+  elapsedTime = (elapsedTime - secs) / 60;
+  let mins = elapsedTime % 60;
+  let hrs = (elapsedTime - mins) / 60;
+  timer.innerHTML = hrs + ":" + padZero(mins) + ":" + padZero(secs) + ":" + padZero(ms, 3);
+}
+
+// Pad the milliseconds with leading zeros if necessary
+function padZero(num, size = 2) {
+  let s = num + "";
+  while (s.length < size) {
+    s = "0" + s;
+  }
+  return s;
+}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var startBtn = document.getElementById("start-btn");
+  var resetBtn = document.getElementById("reset-btn");
+  var stopBtn = document.getElementById("stop-btn");
+  var timer = document.getElementById("timer");
+  var spokenText = document.getElementById("spoken-text");
+  var mispronounced = document.getElementById("mispronounced");
+  var story = document.getElementById("story");
+
+  // Initialize the SpeechRecognition API
+  var recognition = new window.webkitSpeechRecognition();
+  recognition.continuous = true;
+
+  startBtn.addEventListener("click", function() {
+  recognition.start();
+  startTimer();
+});
+
+// Start the speech recognition when the user starts speaking
+recognition.onaudiostart = function() {
+  console.log("Audio recording started");
+};
+
+// Stop the speech recognition and reset the timer when the "Reset Timer" button is clicked
+resetBtn.addEventListener("click", function() {
+    recognition.stop();
+    resetTimer();
+    mispronounced.textContent = ""; // clear mispronounced words display
+  });
+
+  // Stop the speech recognition when the "Stop Speaking" button is clicked
+  stopBtn.addEventListener("click", function() {
+    recognition.stop();
+  });
+
+// When speech is recognized, send it to the Flask app for analysis
+recognition.onresult = function(event) {
+  const spokenText = event.results[0][0].transcript;
+  
+  // Send the spoken text to the Flask app
+  fetch('/analyze3', {
+    method: 'POST',
+    body: JSON.stringify({ spoken_text: spokenText }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // If there are mispronounced words, display them in the story textarea
+    if (data.mispronounced_words.length > 0) {
+      const mispronouncedWords = "Mispronounced words: " + data.mispronounced_words.join(", ");
+      story.value += mispronouncedWords + "\n";
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance('You mispronounced some words in your speech. Please try again.');
+      synth.speak(utterance);
+    }
+  });
+};
+});
+  </script>
+
+  <title>Speech Analysis</title>
+</head>
+<body>
+  <h1>Ben's Store</h1>
+  <form id="speech-form">
+    <div id="WordStory"></div>
+    <label for="words">Words/Story to Read</label><br>
+    <textarea id="word" name="word" rows="10" cols="50">
+      Ben has his own store.
+      “Do you sell eggs?” asks Mel.
+      “Yes, come in,” says Ben.
+      “Do you sell milk?” asks Dante.
+      “Yes, come in,” says Ben.
+      “Do you sell hats?” asks Lala.
+      “No, we do not sell hats,” says Ben.
+      “But you can come in and have a look.”
+      Lala goes in. She gets a banana.</textarea><br>
+    <button type="button" id="start-btn">Start Speaking</button>
+    <button type="button" id="reset-btn">Reset Timer</button>
+    <button type="button" id="stop-btn">Stop Timer</button>
+    <div id="timer">0:00:00:000</div>
+    <div id="mispronounced"></div>
+    <label for="story">Mispronounced Words</label><br>
+    <textarea id="story" name="story" rows="10" cols="50"></textarea><br>
+    <input type="hidden" id="spoken-text" name="spoken_text">
+  </form>
+  <div id="mispronounced">
+     {% if mispronounced_word %}
+  <p>You mispronounced the word "{{ mispronounced_word }}". Please try again.</p>
+  {% endif %}
+  </div>
+ 
+
+ 
+</body>
+
+</html>

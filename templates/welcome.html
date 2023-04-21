@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mispronunciation Detection</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcomecss.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<!-- welcome page -->
+	<section id="welcome-page">
+		<h1>Mispronunciation Detection</h1>
+		<button id="menu-button">Menu</button>
+	</section>
+
+	<!-- menu -->
+	<section id="menu" class="hidden">
+		<h2>Choose a mode:</h2>
+		<ul>
+			<li>
+				<button class="mode-button">EASY STORY MODE</button>
+				<ul class="levels hidden">
+					<li><a href="{{ url_for('sedashboard1') }}" method="get">Level 1</a></li>
+					<li><a href="{{ url_for('sedashboard2') }}" method="get">Level 2</a></li>
+					<li><a href="{{ url_for('sedashboard3') }}" method="get">Level 3</a></li>
+					<li><a href="{{ url_for('sedashboard5') }}" method="get">Level 4</a></li>
+				</ul>
+			</li>
+			<li>
+				<button class="mode-button">HARD STORY MODE</button>
+				<ul class="levels hidden">
+					<li><a href="{{ url_for('sedashboard6') }}" method="get">Level 1</a></li>
+					<li><a href="{{ url_for('sedashboard7') }}" method="get">Level 2</a></li>
+					<li><a href="{{ url_for('sedashboard8') }}" method="get">Level 3</a></li>
+					<li><a href="{{ url_for('sedashboard9') }}" method="get">Level 4</a></li>
+				</ul>
+			</li>
+			<li>
+				<button class="mode-button">EASY WORD MODE</button>
+				<ul class="levels hidden">
+					<li><a href="{{ url_for('dashboard') }}" method="get">Click Me!</a></li>
+				</ul>
+			</li>
+			<li>
+				<button class="mode-button">HARD WORD MODE</button>
+				<ul class="levels hidden">
+					<li><a href="{{ url_for('dashboard4') }}" method="get">Click Me!</a></li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+    <script type="text/javascript" src="{{ url_for('static', filename='welcomejs.js') }}">
+		document.querySelector('levels hidden').addEventListener('submit', function() {
+    window.location.href = 'dashboard.html';
+	window.location.href = 'dashboard4.html';
+	window.location.href = 'sedashboard1.html';
+	window.location.href = 'sedashboard2.html';
+	window.location.href = 'sedashboard3.html';
+	window.location.href = 'sedashboard5.html';
+	window.location.href = 'sedashboard6.html';
+	window.location.href = 'sedashboard7.html';
+	window.location.href = 'sedashboard8.html';
+	window.location.href = 'sedashboard9.html';
+});
+	</script>
+</body>
+</html>
